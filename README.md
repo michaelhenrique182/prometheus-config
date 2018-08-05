@@ -46,7 +46,7 @@ is used then the webhook URL will use a host and port specific to
 your environment and the URL path will be `/api/webhooks/prometheus`.
 
 Authentication
-~~~~~~~~~~~~~~
+++++++++++++++
 
 If Alerta is configured to enforce authentication then the receivers
 section should define BasicAuth username and password or the webhook
