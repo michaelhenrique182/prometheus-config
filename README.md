@@ -29,9 +29,9 @@ Prometheus [Alertmanager](http://prometheus.io/docs/alerting/alertmanager/).
 
 Support for Prometheus is built-in to Alerta so no special configuration
 is required other than to ensure the webhook URL is correct in the
-`alertmanager.yml` config file.
+Alertmanager config file.
 
-**Example receivers section**
+**Example `alertmanager.yml` receivers section**
 
 ```
 receivers:
@@ -47,8 +47,25 @@ your environment and the URL path will be `/api/webhooks/prometheus`.
 
 **Example receivers section (if authentication enabled)**
 
-If Alerta is configured to enforce authentication then the webhook
-URL needs to include an API key as a paramter like so:
+If Alerta is configured to enforce authentication then the receivers
+section should define BasicAuth username and password or the webhook
+URL should include an API key:
+
+**Example `alertmanager.yml` receivers section with BasicAuth**
+
+```
+receivers:
+- name: "alerta"
+  webhook_configs:
+  - url: 'http://alerta:8080/api/webhooks/prometheus'
+    send_resolved: true
+    http_config:
+      basic_auth: 
+        username: admin@alerta.io
+        password: alerta
+```
+
+**Example `alertmanager.yml` receivers section with API Key**
 
 ```
 receivers:
@@ -74,7 +91,7 @@ used to populate Alerta attributes in those triggered alerts:
 | correlate              | label         | correlate    |
 | service                | label         | service      |
 | job           (*)      | internal      | group        |
-| value                  | label         | value        |
+| value                  | annotation    | value        |
 | description or summary | annotation    | text         |
 | unassigned labels      | label         | tags         |
 | unassigned annotations | annotation    | attributes   |
@@ -264,4 +281,4 @@ References
 License
 -------
 
-Copyright (c) 2016-2017 Nick Satterly. Available under the MIT License.
+Copyright (c) 2016-2018 Nick Satterly. Available under the MIT License.
